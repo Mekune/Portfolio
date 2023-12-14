@@ -1,16 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const Header = () => (
-  <header className="z-[999] relative ">
-    <div
-      className="fixed top-0 left-1/2 h-[4.5rem] w-full rounded-none border border-white border-opacity-40 bg-white bg-opacity-80 shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem] sm:top-6 sm:h-[3.25rem] sm:w-[36rem] sm:rounded-full dark:bg-gray-950 dark:border-black/40 dark:bg-opacity-75"
-      style={{
-        opacity: 1,
-        transform: "translateX(-50%) translateY(0px) translateZ(0px)",
-      }}
-    ></div>
-    <nav className="flex fixed top-[0.15rem] left-1/2 h-12 -translate-x-1/2 py-2 sm:top-[1.7rem] sm:h-[initial] sm:py-0">
-      <ul className="flex w-[22rem] flex-wrap items-center justify-center gap-y-1 text-[0.9rem] font-medium text-gray-500 sm:w-[initial] sm:flex-nowrap sm:gap-5">
+const Header = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 25) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  return (
+    <nav
+      className={`fixed w-screen transition-all duration-400 ${
+        scrolled ? "h-14" : "h-10"
+      } ${scrolled ? "bg-black" : ""}`}
+    >
+      <ul
+        className={`flex w-[22rem] flex-wrap items-center justify-center gap-y-1 text-[0.9rem] font-medium text-gray-500 sm:w-[initial] sm:flex-nowrap sm:gap-5 transition-all duration-400 ${
+          scrolled ? "h-14" : "h-10"
+        }`}
+      >
         {[
           "#home",
           "#about",
@@ -29,17 +49,12 @@ const Header = () => (
               href={href}
             >
               {href.substring(1).charAt(0).toUpperCase() + href.substring(2)}{" "}
-              {/* Converts '#home' to 'Home' */}
-              <span
-                className="bg-gray-100 rounded-full absolute inset-0 -z-10 dark:bg-gray-800"
-                style={{ transform: "none", transformOrigin: "50% 50% 0px" }}
-              ></span>
             </a>
           </li>
         ))}
       </ul>
     </nav>
-  </header>
-);
+  );
+};
 
 export default Header;

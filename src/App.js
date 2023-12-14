@@ -12,7 +12,7 @@ import Contact from "./components/Contact.js";
 
 function App() {
   return (
-    <div className="App h-max dark:bg-gray-900 text-gray-100">
+    <div className="App h-max bg-gray-800  text-gray-400">
       <Navbar />
       <Home />
       <About />
